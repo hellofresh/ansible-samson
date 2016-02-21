@@ -29,21 +29,5 @@
     - "{{ samson_home_dir }}"
     - "{{ samson_log_dir }}"
 
-- name: Get samson from git
-  git:
-    repo="{{ samson_git_url }}"
-    dest="{{ samson_deploy_dir }}"
-    force="no"
-    version="{{ samson_version | default('omit') }}"
-    accept_hostkey=true
-  become_user: "{{ samson_user }}"
-
-- name: Install Package.json
-  npm:
-    path="{{ samson_deploy_dir }}"
-    state="present"
-
-- name: Run bundler
-  bundler:
-    chdir="{{ samson_deploy_dir }}"
-    exclude_groups="{{ samson_exclude_groups }}"
+- name: Include install yaml
+  include: Install.yml
