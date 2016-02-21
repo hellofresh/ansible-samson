@@ -1,5 +1,11 @@
 ---
 
+
+- name: Install common dependencies
+  apt:
+    name="{{ item }}"
+  with_items: "{{ samson_apt_dependecies }}"
+
 - name : Create samson group
   group: 
     name="{{ samson_group }}"
@@ -32,8 +38,12 @@
     accept_hostkey=true
   become_user: "{{ samson_user }}"
 
+- name: Install Package.json
+  npm:
+    path="{{ samson_deploy_dir }}"
+    state="present"
+
 - name: Run bundler
   bundler:
     chdir="{{ samson_deploy_dir }}"
-    exclude_groups:
-  become_user: "{{ samson_user }}"
+    exclude_groups="{{ samson_exclude_groups }}"
