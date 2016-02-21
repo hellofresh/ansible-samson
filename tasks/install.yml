@@ -38,7 +38,7 @@
 - name: Deploy puma.rb
   template:
     src="puma.rb.j2"
-    dest="{{ samson_deploy_dir }}/config/puma.rb"
+    dest="{{ samson_home_dir }}/puma.rb"
     owner="{{ samson_user }}"
     group="{{ samson_group }}"
     mode=0644
