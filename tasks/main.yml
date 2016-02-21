@@ -1,0 +1,39 @@
+---
+
+- name : Create samson group
+  group: 
+    name="{{ samson_group }}"
+
+- name : Create samson user
+  user : 
+    name="{{ samson_user }}"
+    group="{{ samson_group }}"
+    shell="/sbin/nologin"
+    home="{{ samson_home_dir }}"
+    createhome="yes"
+
+- name: Create samson directories
+  file: 
+    path="{{ samson_home_dir }}"
+    owner="{{ samson_user }}"
+    group="{{ samson_group }}"
+    mode=0755
+    state=directory
+  with_items: 
+    - "{{ samson_home_dir }}"
+    - "{{ samson_log_dir }}"
+
+- name: Get samson from git
+  git:
+    repo="{{ samson_git_url }}"
+    dest="{{ samson_deploy_dir }}"
+    force="no"
+    version="{{ samson_version | default('omit') }}"
+    accept_hostkey=true
+  become_user: "{{ samson_user }}"
+
+- name: Run bundler
+  bundler:
+    chdir="{{ samson_deploy_dir }}"
+    exclude_groups:
+  become_user: "{{ samson_user }}"

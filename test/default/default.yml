@@ -1,0 +1,7 @@
+---
+
+- name: Install default config for ansible-samson
+  hosts: all
+  become: True
+  roles :
+    - ansible-samson

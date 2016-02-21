@@ -1,0 +1,16 @@
+---
+
+## By default will use master
+samson_version     : "master" 
+
+samson_user         : "samson"
+samson_group        : "samson"
+
+samson_home_dir     : "/opt/samson"
+samson_deploy_dir   : "{{ samson_home_dir }}/{{ samson_version }}"
+samson_log_dir      : "/var/log/samson"
+
+samson_git_url      : "https://github.com/zendesk/samson.git"
+
+
+#

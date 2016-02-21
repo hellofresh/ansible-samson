@@ -1,0 +1,6 @@
+I, [2016-02-21T15:34:43.093498 #63706]  INFO -- default-ubuntu-v2: -----> Converging <default-ubuntu-v2>...
+I, [2016-02-21T15:34:43.094074 #63706]  INFO -- default-ubuntu-v2: Preparing files for transfer
+I, [2016-02-21T15:34:43.094298 #63706]  INFO -- default-ubuntu-v2: *************** AnsiblePush install_command ***************
+I, [2016-02-21T15:34:43.094363 #63706]  INFO -- default-ubuntu-v2: Ansible push config validated
+I, [2016-02-21T15:34:43.343557 #63706]  INFO -- default-ubuntu-v2: Transferring files to <default-ubuntu-v2>
+I, [2016-02-21T15:34:43.350431 #63706]  INFO -- default-ubuntu-v2: *************** AnsiblePush run ***************
