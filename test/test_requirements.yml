@@ -1,0 +1,10 @@
+---
+
+
+- src : git+https://github.com/rvm/rvm1-ansible.git
+  name: "ansible-rvm"
+  version: "master"
+
+- src : git+https://github.com/Stouts/Stouts.nodejs
+  version: "1.3.2"
+  name: "Stouts.nodejs"
