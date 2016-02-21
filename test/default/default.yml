@@ -3,5 +3,9 @@
 - name: Install default config for ansible-samson
   hosts: all
   become: True
+  vars:
+    nodejs_version: "4.3*"
   roles :
+    - ansible-rvm
+    - Stouts.nodejs
     - ansible-samson
