@@ -1,0 +1,6 @@
+---
+
+- name: restart samson
+  service:
+    name="samson"
+    state="restarted"
