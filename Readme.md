@@ -21,9 +21,6 @@ Dependencies
 Role Variables
 --------------
 ```yaml
----
----
-
 ## By default will use master, but its a good idea to pin a version
 samson_version              : "master" 
 ## Database configuration (default will use sqlite you can configure mysql or postgresql)
