@@ -12,9 +12,10 @@ before_install:
   - gem install bundler
   # Get ansible install
   - curl -s https://raw.githubusercontent.com/AutomationWithAnsible/ansible-setup/master/example/travis-install -o /tmp/travis-ansible-setup.sh
-  - ansible-galaxy install -r test/test_requirements.yml -p test/roles
+
 install:
   - bash /tmp/travis-ansible-setup.sh
+  - ansible-galaxy install -r test/test_requirements.yml -p test/roles
   - bundle install
 
 script:
