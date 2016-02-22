@@ -22,7 +22,11 @@ samson_secret_token         : "e3711c777b49a9ba6f4cd44539f4c677e76f7c08c346875e5
 samson_github_client_id     : "875f73cad3b230a8bf94"
 samson_github_secret        : "ab5aa3d6f86e04a8026d36f03d8c0742f9f948d8"
 samson_github_token         : "f8a52fb5411511fb7b93b9729794dc753e6bafae"
-samsoin_auth_ldap           : 0
+samson_auth_ldap            : 0
+# Optional config
+#samson_github_organization  : "MyOrg"
+#samson_github_admin_team    : "TheAdmin" 
+#samson_github_deploy_team    : "THeDeployer" 
 
 ## Samson URL,bind and ports
 samson_url                  : "http://localhost:{{ samson_puma_port }}"
@@ -48,6 +52,12 @@ samson_projects             :
                                 - name: "samson"
                                   repository_url: "https://github.com/zendesk/samson.git"
 samson_stages               :
+                                - name          : "Production"
+                                  is_production : true
+                                - name          : "Development"
+                                  is_production : false
+                                - name          : "Staging"
+                                  is_production : false
 
 ## Samson Directory
 samson_home_dir             : "/opt/samson"
