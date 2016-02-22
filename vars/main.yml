@@ -1,0 +1,9 @@
+---
+
+samson_exclude_groups       : 
+                                - "development"
+samson_git_url              : "https://github.com/zendesk/samson.git"
+samson_assets_guard_file    : "{{ samson_home_dir }}/assets_guard"
+force_assets_setup          : False
+samson_db_guard_file        : "{{ samson_home_dir }}/db_guard"
+force_db_setup              : False
