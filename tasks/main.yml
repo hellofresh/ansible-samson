@@ -9,18 +9,22 @@
 - name : Create samson group
   group: 
     name="{{ samson_group }}"
+  notify:
+    - restart samson
 
 - name : Create samson user
   user : 
     name="{{ samson_user }}"
     group="{{ samson_group }}"
-    shell="/sbin/nologin"
+    shell="/bin/bash"
     home="{{ samson_home_dir }}"
     createhome="yes"
+  notify:
+    - restart samson
 
 - name: Create samson directories
   file: 
-    path="{{ samson_home_dir }}"
+    path="{{ item }}"
     owner="{{ samson_user }}"
     group="{{ samson_group }}"
     mode=0755
@@ -28,6 +32,20 @@
   with_items: 
     - "{{ samson_home_dir }}"
     - "{{ samson_log_dir }}"
+  notify:
+    - restart samson
 
 - name: Include install yaml
   include: Install.yml
+
+- name: Include configuration yaml
+  include: configuration.yml
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Ensure Samson is running
+  service:
+    name="samson"
+    state="started"
+    enabled=True

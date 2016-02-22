@@ -1,6 +1,6 @@
 ---
 
-- name: Get samson from git
+- name: instal | Get samson from git
   git:
     repo="{{ samson_git_url }}"
     dest="{{ samson_deploy_dir }}"
@@ -8,37 +8,29 @@
     version="{{ samson_version | default('omit') }}"
     accept_hostkey=true
   become_user: "{{ samson_user }}"
+  notify:
+    - restart samson
 
-- name: Install Package.json
+- name: instal | Install Package.json
   npm:
     path="{{ samson_deploy_dir }}"
     state="present"
+  notify:
+    - restart samson
 
 - name: Run bundler
   bundler:
     chdir="{{ samson_deploy_dir }}"
     exclude_groups="{{ samson_exclude_groups }}"
+  notify:
+    - restart samson
 
-- name: Deploy ENV config
+- name: instal | Deploy ENV config
   template:
     src="env.j2"
     dest="{{ samson_deploy_dir }}/.env"
     owner="{{ samson_user }}"
     group="{{ samson_group }}"
     mode=0600
-
-- name: Deploy DB config
-  template:
-    src="database.yml.j2"
-    dest="{{ samson_deploy_dir }}/config/database.yml"
-    owner="{{ samson_user }}"
-    group="{{ samson_group }}"
-    mode=0600
-
-- name: Deploy puma.rb
-  template:
-    src="puma.rb.j2"
-    dest="{{ samson_home_dir }}/puma.rb"
-    owner="{{ samson_user }}"
-    group="{{ samson_group }}"
-    mode=0644
+  notify:
+    - restart samson

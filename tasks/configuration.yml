@@ -1,0 +1,77 @@
+---
+
+- name: configuration | Deploy DB config
+  template:
+    src="database.yml.j2"
+    dest="{{ samson_deploy_dir }}/config/database.yml"
+    owner="{{ samson_user }}"
+    group="{{ samson_group }}"
+    mode=0600
+  notify:
+    - restart samson
+
+- name: configuration | Deploy puma.rb
+  template:
+    src="puma.rb.j2"
+    dest="{{ samson_home_dir }}/puma.rb"
+    owner="{{ samson_user }}"
+    group="{{ samson_group }}"
+    mode=0644
+  notify:
+    - restart samson
+
+- name: configuration | Check Assets guard file
+  stat:
+    path="{{ samson_assets_guard_file }}"
+  register: assets_guard
+
+- name: configuration | Create Assets
+  shell: bundle exec rake assets:precompile
+  environment:
+    RAILS_ENV: "production"
+  args:
+    chdir: "{{ samson_deploy_dir }}"
+  when: "not assets_guard.stat.exists or force_assets_setup"
+
+- name: configuration | Touch assets guard file 
+  copy:
+    content=""
+    dest="{{ samson_assets_guard_file }}"
+
+- name: configuration | Check DB guard file
+  stat:
+    path="{{ samson_db_guard_file }}"
+  register: db_guard
+
+- name: configuration | Create DB schema
+  shell: bundle exec rake db:setup
+  environment:
+    RAILS_ENV: "production"
+  args:
+    chdir: "{{ samson_deploy_dir }}"
+  when: "not db_guard.stat.exists  or force_db_setup"
+
+- name: configuration | Touch db guard file 
+  copy:
+    content=""
+    dest="{{ samson_db_guard_file }}"
+
+- name: configuration | Deploy run-samson.sh
+  template:
+    src="run-samson.sh.j2"
+    dest="{{ samson_home_dir }}/run-samson.sh"
+    owner="{{ samson_user }}"
+    group="{{ samson_group }}"
+    mode=0755
+  notify:
+    - restart samson
+
+- name: configuration | Deploy samson service
+  template:
+    src="samson.initd.sh.j2.sh"
+    dest="/etc/init.d/samson"
+    owner="root"
+    group="root"
+    mode=0755
+  notify:
+    - restart samson
