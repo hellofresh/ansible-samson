@@ -4,7 +4,7 @@
 
 
 ## Overview
-This role installs and manages [Zendesg samson](https://github.com/zendesk/samson)
+This role installs and manages [Zendesk samson](https://github.com/zendesk/samson)
 
 Requirements
 ------------
@@ -22,9 +22,11 @@ Role Variables
 --------------
 ```yaml
 ---
-## By default will use master but its a good idea to pin a version
+---
+
+## By default will use master, but its a good idea to pin a version
 samson_version              : "master" 
-## Database configuration (default will use sqlite you can configure also use mysql or postgresql)
+## Database configuration (default will use sqlite you can configure mysql or postgresql)
 samson_database             :
                                 development :
                                   adapter   : sqlite3
@@ -52,12 +54,13 @@ samson_url                  : "http://localhost:{{ samson_puma_port }}"
 samson_puma_bind            : "0.0.0.0"
 samson_puma_port            : 3000
 
-## dependecies to install git and mysql and postgres stuff 
+## dependecies to install git, mysql and postgres stuff 
 samson_apt_dependecies      :
                                 - git
                                 - libgmp3-dev
                                 - libmysqlclient-dev
                                 - libpq-dev
+samson_environment_name     : "production"
 
 ## Samson Directory
 samson_home_dir             : "/opt/samson"
@@ -68,7 +71,6 @@ samson_log_file             : "/var/log/samson/samson.log"
 ## Samson user
 samson_user                 : "samson"
 samson_group                : "samson"
-
 ```
 
 License
