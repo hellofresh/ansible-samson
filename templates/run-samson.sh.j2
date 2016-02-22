@@ -5,4 +5,4 @@ SAMSON_DEPLOY_DIR="{{ samson_deploy_dir }}"
 SAMSON_LOG_FILE="{{ samson_log_file }}"
 
 cd ${SAMSON_DEPLOY_DIR}
-RAILS_ENV=production bundle exec puma -C ${SAMSON_HOME}/puma.rb  > $SAMSON_LOG_FILE 2>&1
+RAILS_ENV={{ samson_environment_name }} bundle exec puma -C ${SAMSON_HOME}/puma.rb  > $SAMSON_LOG_FILE 2>&1

@@ -36,6 +36,7 @@ samson_apt_dependecies      :
                                 - libgmp3-dev
                                 - libmysqlclient-dev
                                 - libpq-dev
+samson_environment_name     : "production"
 
 ## Samson Directory
 samson_home_dir             : "/opt/samson"
