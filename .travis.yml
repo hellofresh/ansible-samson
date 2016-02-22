@@ -3,7 +3,6 @@ language: python
 python: "2.7"
 
 env:
-  - KITCHEN_TEST="ubuntu-v1"
   - KITCHEN_TEST="ubuntu-v2"
 
 before_install:
