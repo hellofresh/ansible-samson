@@ -18,10 +18,11 @@ samson_projects_def = [
 ]
 
 samson_stages_def = [ 
-            { :name => "Live", :is_production => true },
-            { :name => "Staging", :is_production => false },
-            { :name => "Development", :is_production => false },
-          ]
+{% for satage in samson_stages %}
+{ {% for key, value in samson_stages.iteritems() %}:{{ key}} => {{ value | to_json }}, {% endfor %} },
+{% endfor %}
+]
+
 samson_stages = Array.new
 samson_deploy_groups = Array.new
 
