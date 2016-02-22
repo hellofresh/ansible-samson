@@ -4,8 +4,7 @@
 
 
 ## Overview
-
-
+This role installs and manages [Zendesg samson](https://github.com/zendesk/samson)
 
 Requirements
 ------------
@@ -16,7 +15,7 @@ Dependencies
 -----------
 * Ubuntu 12.04 or 14.04 ( Can work with other distros with minor adjustments)
 * ruby 2.1 and bundler. We suggest [offical rvm role](https://github.com/rvm/rvm1-ansible)
-* npm.  We suggest [stouts node](https://github.com/Stouts/Stouts.nodejs)
+* npm. We suggest [stouts node](https://github.com/Stouts/Stouts.nodejs)
 
 
 Role Variables
