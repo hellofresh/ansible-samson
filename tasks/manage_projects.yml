@@ -1,0 +1,18 @@
+---
+
+- name: Manage projects | Deploy manage ruby script
+  template:
+    src="manage.rb.j2"
+    dest="{{ samson_home_dir }}/manage.rb"
+    owner="samson"
+    group="samson"
+    mode=0755
+
+- name: Manage projects | Execute
+  shell: "bundle exec ruby ../manage.rb"
+  changed_when: False
+  environment:
+    RAILS_ENV: "{{ samson_environment_name }}"
+  args:
+    chdir: "{{ samson_deploy_dir }}"
+  become_user: "{{ samson_user }}"

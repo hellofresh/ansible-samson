@@ -41,6 +41,9 @@
 - name: Include configuration yaml
   include: configuration.yml
 
+- name: Include manage projects
+  include: manage_projects.yml 
+
 - name: Flush handlers
   meta: flush_handlers
 

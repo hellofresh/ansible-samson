@@ -1,5 +1,4 @@
 ---
-
 ## By default will use master, but its a good idea to pin a version
 samson_version              : "master" 
 ## Database configuration (default will use sqlite you can configure mysql or postgresql)
@@ -37,6 +36,18 @@ samson_apt_dependecies      :
                                 - libmysqlclient-dev
                                 - libpq-dev
 samson_environment_name     : "production"
+
+## Samson project management
+samson_manage_prjects       : False
+samson_deploy_command       : |
+                              echo "Doploy"
+                              exit 0
+samson_projects             : 
+                                - name: "ansible-samson"
+                                  repository_url: "https://github.com/hellofresh/ansible-samson.git"
+                                - name: "samson"
+                                  repository_url: "https://github.com/zendesk/samson.git"
+samson_stages               :
 
 ## Samson Directory
 samson_home_dir             : "/opt/samson"

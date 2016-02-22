@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+# You need to export
+# RAILS_ENV={{ samson_environment_name }} 
+
+root = "{{ samson_deploy_dir }}"
+require File.expand_path('config/environment', root)
+
+command_to_execute = '''
+{{ samson_deploy_command }}
+'''
+command = Command.find_or_create_by!(command: command_to_execute)
+
+samson_projects_def = [
+{% for project in samson_projects %}
+{ {% for key, value in project.iteritems() %}:{{ key}} => {{ value | to_json }}, {% endfor %} },
+{% endfor %}
+]
+
+samson_stages_def = [ 
+            { :name => "Live", :is_production => true },
+            { :name => "Staging", :is_production => false },
+            { :name => "Development", :is_production => false },
+          ]
+samson_stages = Array.new
+samson_deploy_groups = Array.new
+
+samson_stages_def.each do |samson_stage_def|
+  temp_env = Environment.find_or_create_by!(
+    name: samson_stage_def[:name].downcase, 
+    is_production: samson_stage_def[:is_production]
+  )
+
+  temp_group = DeployGroup.find_or_create_by!(
+    name: samson_stage_def[:name],
+    environment: temp_env
+  )
+
+  samson_stages << temp_group
+  samson_deploy_groups << temp_group
+end
+
+samson_projects_def.each do |samson_project|
+    puts "Ensure projet '#{samson_project[:name]}' '#{samson_project[:repository_url]}' created"
+    project = Project.find_or_create_by!(
+        name: samson_project[:name],
+        repository_url: samson_project[:repository_url]
+    )
+    # Hack create a list of stages in that projects
+    stage_names = Array.new
+    project.stages.each do |project_stage|
+      stage_names << project_stage.name
+    end
+
+    samson_deploy_groups.each do |samson_deploy_group|
+        if not stage_names.include? samson_deploy_group[:name].downcase
+          puts "Ensure stage #{samson_deploy_group[:name]} is created"
+          my_stage = project.stages.create!(
+            name: samson_deploy_group[:name].downcase,
+            deploy_groups: [samson_deploy_group]
+          )
+          puts "linking command to stage"
+          StageCommand.create!(command: command, stage: my_stage, position: 1)
+        else
+          puts "#{samson_deploy_group[:name].downcase} exists"
+        end
+    end
+end
+
