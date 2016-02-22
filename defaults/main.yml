@@ -38,7 +38,7 @@ samson_apt_dependecies      :
 samson_environment_name     : "production"
 
 ## Samson project management
-samson_manage_prjects       : False
+samson_manage_project       : False
 samson_deploy_command       : |
                               echo "Doploy"
                               exit 0

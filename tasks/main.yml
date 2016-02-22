@@ -42,7 +42,8 @@
   include: configuration.yml
 
 - name: Include manage projects
-  include: manage_projects.yml 
+  include: manage_projects.yml
+  when: samson_manage_project 
 
 - name: Flush handlers
   meta: flush_handlers
