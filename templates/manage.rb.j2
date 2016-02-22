@@ -19,7 +19,7 @@ samson_projects_def = [
 
 samson_stages_def = [ 
 {% for satage in samson_stages %}
-{ {% for key, value in samson_stages.iteritems() %}:{{ key}} => {{ value | to_json }}, {% endfor %} },
+{ {% for key, value in satage.iteritems() %}:{{ key}} => {{ value | to_json }}, {% endfor %} },
 {% endfor %}
 ]
 
