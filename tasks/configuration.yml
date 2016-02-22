@@ -31,12 +31,15 @@
     RAILS_ENV: "production"
   args:
     chdir: "{{ samson_deploy_dir }}"
+  become_user: "{{ samson_user }}"
   when: "not assets_guard.stat.exists or force_assets_setup"
 
 - name: configuration | Touch assets guard file 
   copy:
     content=""
     dest="{{ samson_assets_guard_file }}"
+    owner="{{ samson_user }}"
+    group="{{ samson_group }}"
 
 - name: configuration | Check DB guard file
   stat:
@@ -46,15 +49,18 @@
 - name: configuration | Create DB schema
   shell: bundle exec rake db:setup
   environment:
-    RAILS_ENV: "production"
+    RAILS_ENV: "{{ samson_environment_name }}"
   args:
     chdir: "{{ samson_deploy_dir }}"
+  become_user: "{{ samson_user }}"
   when: "not db_guard.stat.exists  or force_db_setup"
 
 - name: configuration | Touch db guard file 
   copy:
     content=""
     dest="{{ samson_db_guard_file }}"
+    owner="{{ samson_user }}"
+    group="{{ samson_group }}"
 
 - name: configuration | Deploy run-samson.sh
   template:
